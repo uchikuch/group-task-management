@@ -1,56 +1,52 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class user extends Model {
+  class project extends Model {
     static associate(models) {
       // define association here
-      user.hasMany(models.organisation, {
+      project.belongsTo(models.user, {
         through: models.JoinTable,
         foreignKey: "id",
         onDelete: "CASCADE",
       });
-      user.hasMany(models.organisation_invite, {
+      project.hasMany(models.organisation_invite, {
         through: models.JoinTable,
         foreignKey: "id",
         onDelete: "CASCADE",
       });
-      user.hasMany(models.organisation_member, {
+      project.hasMany(models.organisation_member, {
         through: models.JoinTable,
         foreignKey: "id",
         onDelete: "CASCADE",
       });
-      user.hasMany(models.project_member, {
+      project.hasMany(models.project_member, {
         through: models.JoinTable,
         foreignKey: "id",
         onDelete: "CASCADE",
       });
-      user.hasMany(models.task_member, {
+      project.hasMany(models.project, {
         through: models.JoinTable,
         foreignKey: "id",
         onDelete: "CASCADE",
-      });
-      user.hasMany(models.task_comment, {
-        through: models.JoinTable,
-        foreignKey: "id",
       });
     }
   }
-  user.init(
+  project.init(
     {
       id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
-      first_name: { type: DataTypes.STRING, allowNull: false },
-      last_name: { type: DataTypes.STRING, allowNull: false },
-      email: { type: DataTypes.STRING, allowNull: false },
+      organisation_id: { type: DataTypes.UUID, allowNull: false },
+      name: { type: DataTypes.STRING, allowNull: false },
+      description: { type: DataTypes.STRING },
     },
     {
       sequelize,
-      modelName: "user",
+      modelName: "project",
       underscored: true,
     }
   );
-  return user;
+  return project;
 };

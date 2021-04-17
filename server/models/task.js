@@ -1,56 +1,50 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class user extends Model {
+  class task extends Model {
     static associate(models) {
       // define association here
-      user.hasMany(models.organisation, {
+      task.belongsTo(models.project, {
         through: models.JoinTable,
         foreignKey: "id",
         onDelete: "CASCADE",
       });
-      user.hasMany(models.organisation_invite, {
+      task.belongsTo(models.list, {
         through: models.JoinTable,
         foreignKey: "id",
         onDelete: "CASCADE",
       });
-      user.hasMany(models.organisation_member, {
+      task.hasMany(models.task_member, {
         through: models.JoinTable,
         foreignKey: "id",
         onDelete: "CASCADE",
       });
-      user.hasMany(models.project_member, {
+      task.hasMany(models.task_comment, {
         through: models.JoinTable,
         foreignKey: "id",
         onDelete: "CASCADE",
-      });
-      user.hasMany(models.task_member, {
-        through: models.JoinTable,
-        foreignKey: "id",
-        onDelete: "CASCADE",
-      });
-      user.hasMany(models.task_comment, {
-        through: models.JoinTable,
-        foreignKey: "id",
       });
     }
   }
-  user.init(
+  task.init(
     {
       id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
-      first_name: { type: DataTypes.STRING, allowNull: false },
-      last_name: { type: DataTypes.STRING, allowNull: false },
-      email: { type: DataTypes.STRING, allowNull: false },
+      project_id: { type: DataTypes.UUID, allowNull: false },
+      list_id: { type: DataTypes.UUID, allowNull: false },
+      name: { type: DataTypes.STRING, allowNull: false },
+      description: { type: DataTypes.STRING },
+      status: { type: DataTypes.STRING },
+      due_date: { type: DataTypes.DATE },
     },
     {
       sequelize,
-      modelName: "user",
+      modelName: "task",
       underscored: true,
     }
   );
-  return user;
+  return task;
 };
