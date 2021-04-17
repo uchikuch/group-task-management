@@ -1,16 +1,16 @@
 {
   "development": {
-    "username": "waiyaki",
+    "username": "ucheazinge",
     "password": null,
-    "database": "todos-dev",
+    "database": "chiffer",
     "host": "127.0.0.1",
     "port": 5432,
     "dialect": "postgres"
   },
   "test": {
-    "username": "waiyaki",
+    "username": "ucheazinge",
     "password": null,
-    "database": "todos-test",
+    "database": "chiffer",
     "host": "127.0.0.1",
     "port": 5432,
     "dialect": "postgres"
