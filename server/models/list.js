@@ -5,12 +5,10 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       list.belongsTo(models.project, {
-        through: models.JoinTable,
         foreignKey: "id",
         onDelete: "CASCADE",
       });
       list.hasMany(models.task, {
-        through: models.JoinTable,
         foreignKey: "id",
         onDelete: "CASCADE",
       });
@@ -23,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
+      project_id: { type: DataTypes.UUID, allowNull: false },
       name: { type: DataTypes.STRING, allowNull: false },
     },
     {

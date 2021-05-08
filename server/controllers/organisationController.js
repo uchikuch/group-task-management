@@ -3,6 +3,7 @@ const {
   organisation_member,
   organisation_invite,
 } = require("../models");
+const constants = require("../config/constants");
 
 module.exports.create_organisation = async (req, res) => {
   console.log("creating org", req.body);
@@ -48,7 +49,7 @@ module.exports.create_organisation_invite = async (req, res) => {
   }
 };
 
-module.exports.respond_to_organisation_invite = async (req, res) => {
+module.exports.add_organisation_member = async (req, res) => {
   console.log("responding to invite", req.body);
 
   const { organisation_id, user_id, invitation_id, status } = req.body;
@@ -62,7 +63,7 @@ module.exports.respond_to_organisation_invite = async (req, res) => {
     }
     // Respond to IV
     // if status is accepted
-    if (status === "accepted") {
+    if (status === constants.INVITE_STATUS.ACCEPTED) {
       // add member to org
       const member = await organisation_member.create({
         organisation_id,
@@ -75,7 +76,7 @@ module.exports.respond_to_organisation_invite = async (req, res) => {
     }
 
     // if staus is rejected
-    if (status === "rejected") {
+    if (status === constants.INVITE_STATUS.REJECTED) {
       await invitation.destroy();
       return res.status(200).json(req.body);
     }

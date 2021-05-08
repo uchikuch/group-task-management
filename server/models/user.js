@@ -4,34 +4,27 @@ module.exports = (sequelize, DataTypes) => {
   class user extends Model {
     static associate(models) {
       // define association here
-      user.hasMany(models.organisation, {
-        through: models.JoinTable,
-        foreignKey: "id",
+      user.belongsToMany(models.organisation, {
+        through: models.organisation_member,
+        foreignKey: "user_id",
         onDelete: "CASCADE",
       });
       user.hasMany(models.organisation_invite, {
-        through: models.JoinTable,
-        foreignKey: "id",
+        foreignKey: "user_id",
         onDelete: "CASCADE",
       });
-      user.hasMany(models.organisation_member, {
-        through: models.JoinTable,
-        foreignKey: "id",
+      user.belongsToMany(models.project, {
+        through: models.project_member,
+        foreignKey: "user_id",
         onDelete: "CASCADE",
       });
-      user.hasMany(models.project_member, {
-        through: models.JoinTable,
-        foreignKey: "id",
-        onDelete: "CASCADE",
-      });
-      user.hasMany(models.task_member, {
-        through: models.JoinTable,
-        foreignKey: "id",
+      user.belongsToMany(models.task, {
+        through: models.task_member,
+        foreignKey: "user_id",
         onDelete: "CASCADE",
       });
       user.hasMany(models.task_comment, {
-        through: models.JoinTable,
-        foreignKey: "id",
+        foreignKey: "user_id",
       });
     }
   }
@@ -44,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       first_name: { type: DataTypes.STRING, allowNull: false },
       last_name: { type: DataTypes.STRING, allowNull: false },
-      email: { type: DataTypes.STRING, allowNull: false },
+      email: { type: DataTypes.STRING, allowNull: false, unique: true },
     },
     {
       sequelize,

@@ -4,29 +4,25 @@ module.exports = (sequelize, DataTypes) => {
   class project extends Model {
     static associate(models) {
       // define association here
-      project.belongsTo(models.user, {
-        through: models.JoinTable,
+      project.belongsToMany(models.user, {
+        through: models.project_member,
+        foreignKey: "project_id",
+        onDelete: "CASCADE",
+      });
+      project.belongsTo(models.organisation, {
         foreignKey: "id",
         onDelete: "CASCADE",
       });
-      project.hasMany(models.organisation_invite, {
-        through: models.JoinTable,
-        foreignKey: "id",
+      project.hasMany(models.list, {
+        foreignKey: "project_id",
         onDelete: "CASCADE",
       });
-      project.hasMany(models.organisation_member, {
-        through: models.JoinTable,
-        foreignKey: "id",
+      project.hasMany(models.project_activity, {
+        foreignKey: "project_id",
         onDelete: "CASCADE",
       });
-      project.hasMany(models.project_member, {
-        through: models.JoinTable,
-        foreignKey: "id",
-        onDelete: "CASCADE",
-      });
-      project.hasMany(models.project, {
-        through: models.JoinTable,
-        foreignKey: "id",
+      project.hasMany(models.task, {
+        foreignKey: "project_id",
         onDelete: "CASCADE",
       });
     }
@@ -41,6 +37,7 @@ module.exports = (sequelize, DataTypes) => {
       organisation_id: { type: DataTypes.UUID, allowNull: false },
       name: { type: DataTypes.STRING, allowNull: false },
       description: { type: DataTypes.STRING },
+      due_date: { type: DataTypes.DATE },
     },
     {
       sequelize,

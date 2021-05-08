@@ -5,12 +5,10 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       organisation_invite.belongsTo(models.user, {
-        through: models.JoinTable,
         foreignKey: "id",
         onDelete: "CASCADE",
       });
       organisation_invite.belongsTo(models.organisation, {
-        through: models.JoinTable,
         foreignKey: "id",
         onDelete: "CASCADE",
       });

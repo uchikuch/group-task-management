@@ -5,12 +5,10 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       task_comment.belongsTo(models.user, {
-        through: models.JoinTable,
         foreignKey: "id",
         onDelete: "CASCADE",
       });
       task_comment.belongsTo(models.task, {
-        through: models.JoinTable,
         foreignKey: "id",
         onDelete: "CASCADE",
       });

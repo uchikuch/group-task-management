@@ -5,7 +5,6 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       project_activity.belongsTo(models.project, {
-        through: models.JoinTable,
         foreignKey: "id",
         onDelete: "CASCADE",
       });

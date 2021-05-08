@@ -5,12 +5,10 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       task_member.belongsTo(models.user, {
-        through: models.JoinTable,
         foreignKey: "id",
         onDelete: "CASCADE",
       });
       task_member.belongsTo(models.project, {
-        through: models.JoinTable,
         foreignKey: "id",
         onDelete: "CASCADE",
       });
@@ -23,8 +21,16 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
-      task_id: { type: DataTypes.UUID, allowNull: false },
-      user_id: { type: DataTypes.UUID, allowNull: false },
+      task_id: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        unique: "compositeIndex",
+      },
+      user_id: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        unique: "compositeIndex",
+      },
     },
     {
       sequelize,

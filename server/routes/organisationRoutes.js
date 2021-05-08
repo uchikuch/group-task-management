@@ -3,17 +3,14 @@ const organisationController = require("../controllers/organisationController");
 
 const router = Router();
 
+router.post("/api/organisations", organisationController.create_organisation);
 router.post(
-  "/api/create_organisation",
-  organisationController.create_organisation
-);
-router.post(
-  "/api/create_org_invite",
+  "/api/organisations/invites",
   organisationController.create_organisation_invite
 );
 router.post(
-  "/api/respond_org_invite",
-  organisationController.respond_to_organisation_invite
+  "/api/organisations/members",
+  organisationController.add_organisation_member
 );
 
 module.exports = router;

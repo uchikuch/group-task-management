@@ -5,23 +5,20 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       task.belongsTo(models.project, {
-        through: models.JoinTable,
         foreignKey: "id",
         onDelete: "CASCADE",
       });
       task.belongsTo(models.list, {
-        through: models.JoinTable,
         foreignKey: "id",
         onDelete: "CASCADE",
       });
-      task.hasMany(models.task_member, {
-        through: models.JoinTable,
-        foreignKey: "id",
+      task.belongsToMany(models.user, {
+        through: models.task_member,
+        foreignKey: "task_id",
         onDelete: "CASCADE",
       });
       task.hasMany(models.task_comment, {
-        through: models.JoinTable,
-        foreignKey: "id",
+        foreignKey: "task_id",
         onDelete: "CASCADE",
       });
     }

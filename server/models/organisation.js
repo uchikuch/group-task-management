@@ -4,29 +4,17 @@ module.exports = (sequelize, DataTypes) => {
   class organisation extends Model {
     static associate(models) {
       // define association here
-      organisation.belongsTo(models.user, {
-        through: models.JoinTable,
-        foreignKey: "id",
+      organisation.belongsToMany(models.user, {
+        through: models.organisation_member,
+        foreignKey: "organisation_id",
         onDelete: "CASCADE",
       });
       organisation.hasMany(models.organisation_invite, {
-        through: models.JoinTable,
-        foreignKey: "id",
-        onDelete: "CASCADE",
-      });
-      organisation.hasMany(models.organisation_member, {
-        through: models.JoinTable,
-        foreignKey: "id",
-        onDelete: "CASCADE",
-      });
-      organisation.hasMany(models.project_member, {
-        through: models.JoinTable,
-        foreignKey: "id",
+        foreignKey: "organisation_id",
         onDelete: "CASCADE",
       });
       organisation.hasMany(models.project, {
-        through: models.JoinTable,
-        foreignKey: "id",
+        foreignKey: "organisation_id",
         onDelete: "CASCADE",
       });
     }

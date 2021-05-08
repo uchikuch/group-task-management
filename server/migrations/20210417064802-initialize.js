@@ -110,6 +110,37 @@ module.exports = {
       },
     });
 
+    await queryInterface.createTable("user_roles", {
+      id: {
+        allowNull: false,
+        primaryKey: true,
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
+        unique: true,
+      },
+      name: {
+        type: Sequelize.UUID,
+        allowNull: false,
+        primaryKey: true,
+        onDelete: "CASCADE",
+        references: {
+          model: "organisations",
+          key: "id",
+        },
+      },
+      description: {
+        type: Sequelize.STRING,
+      },
+      created_at: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
+      updated_at: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
+    });
+
     await queryInterface.createTable("organisation_members", {
       id: {
         allowNull: false,
@@ -125,6 +156,16 @@ module.exports = {
         onDelete: "CASCADE",
         references: {
           model: "organisations",
+          key: "id",
+        },
+      },
+      role_id: {
+        type: Sequelize.UUID,
+        allowNull: false,
+        primaryKey: true,
+        onDelete: "CASCADE",
+        references: {
+          model: "user_roles",
           key: "id",
         },
       },
@@ -211,6 +252,16 @@ module.exports = {
         onDelete: "CASCADE",
         references: {
           model: "users",
+          key: "id",
+        },
+      },
+      role_id: {
+        type: Sequelize.UUID,
+        allowNull: false,
+        primaryKey: true,
+        onDelete: "CASCADE",
+        references: {
+          model: "user_roles",
           key: "id",
         },
       },
@@ -320,7 +371,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      decription: {
+      description: {
+        type: Sequelize.STRING,
+      },
+      status: {
         type: Sequelize.STRING,
       },
       due_date: {
@@ -361,6 +415,16 @@ module.exports = {
         onDelete: "CASCADE",
         references: {
           model: "users",
+          key: "id",
+        },
+      },
+      role_id: {
+        type: Sequelize.UUID,
+        allowNull: false,
+        primaryKey: true,
+        onDelete: "CASCADE",
+        references: {
+          model: "user_roles",
           key: "id",
         },
       },
